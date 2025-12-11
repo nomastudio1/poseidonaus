@@ -1,0 +1,772 @@
+<!doctype html>
+<html
+  class="no-js"
+  lang="{{ request.locale.iso_code }}"
+  dir="{% if request.locale.iso_code == 'ar' or request.locale.iso_code == 'he' %}rtl{% else %}ltr{% endif %}"
+>
+
+  <head>
+   <!-- Load full CSS async -->
+   <link rel="preload" href="{{ 'swiper.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+   <noscript><link rel="stylesheet" href="{{ 'swiper.css' | asset_url }}"></noscript>
+
+    <script>
+   // Fix parentNode errors globally
+   const originalRemoveChild = Node.prototype.removeChild;
+   Node.prototype.removeChild = function(child) {
+    if (child && child.parentNode === this) {
+      return originalRemoveChild.call(this, child);
+    }
+    return child;
+   };
+   </script>
+   <script>
+   window.PUB_SUB_EVENTS = window.PUB_SUB_EVENTS || {};
+   </script>
+
+   <script>
+   window.subscribe = window.subscribe || function() { console.log('Subscribe placeholder'); };
+   window.ON_CHANGE_DEBOUNCE_TIMER = 300;
+   </script>
+  
+   <meta name="google-site-verification" content="C95Fvjh6T7j8A0oAL3jBVzszCj53HoMRn5AXMeFQVrU" />
+   <meta name="google-site-verification" content="Z_2EIfTwU96IP8Brdta56vw3dCde5B3peInmlgUbP-4" />
+   <meta name="facebook-domain-verification" content="ubxgqj2masytuwgismehbtfeblx1q2" />
+  
+   <script>
+    // Global utility functions
+    window.debounce = function(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+         };
+         clearTimeout(timeout);
+         timeout = setTimeout(later, wait);
+       }
+     };
+    </script>
+
+    
+
+    {% if template == 'product.new_dailybalance' 
+      or template == 'product.new_digestiveeq' 
+      or template == 'product.new_digestivehp'
+      or template == 'product.new_digestivek9'
+      or template == 'product.new_digestivek9chews'
+      or template == 'product.new_equibind'
+      or template == 'product.new_metabolize'
+      or template == 'product.new_stressk9'
+      or template == 'product.new_stresspaste' %}
+      <script>
+      // Block WSG on these product templates
+      window.WSG_DISABLED = true;
+      // Remove WSG if already loaded
+      if (window.WSG) {
+        window.WSG = null;
+      }
+      // Block WSG console messages
+      (function() {
+        const originalLog = console.log;
+        console.log = function(...args) {
+          const message = args[0];
+          if (typeof message === 'string' && message.includes('WSG')) {
+            return; // Don't log WSG messages
+          }
+          originalLog.apply(console, args);
+        };
+      })();
+      
+      // Clean up WSG elements after DOM loads
+      document.addEventListener('DOMContentLoaded', function() {
+      // Remove any WSG-related elements that might have loaded
+      document.querySelectorAll('[class*="wsg-"], [id*="wsg-"]').forEach(el => el.remove());
+      
+      // Hide wholesale pricing
+      const styleSheet = document.createElement('style');
+      styleSheet.textContent = `
+      [class*="wsg-"], 
+      [id*="wsg-"],
+      .wholesale-price,
+      .wholesale-only {
+        display: none !important;
+      }
+      `;
+      document.head.appendChild(styleSheet);
+     });
+     </script>
+    {% endif %}
+
+   <script>
+    // Prevent subscription widget errors
+    window.addEventListener('error', function(e) {
+      if (e.message && (e.message.includes('subscription-widget') || e.message.includes('nextSibling'))) {
+        e.preventDefault();
+        console.log('Subscription widget error caught and prevented');
+      }
+    });
+   </script>
+
+   <!-- DNS Prefetch for faster connections -->
+   <link rel="dns-prefetch" href="https://cdn.shopify.com">
+   <link rel="preconnect" href="https://cdn.shopify.com">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <title>{{ page_title }}</title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+  
+
+    {{ 'settings.css' | asset_url | stylesheet_tag }}
+    {{ 'critical.css' | asset_url | stylesheet_tag }}
+
+    <script src="{{ 'variants.js' | asset_url }}" defer="defer"></script>
+
+    <link rel="preload" href="{{ 'main.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ 'main.css' | asset_url }}"></noscript>
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
+    {% comment %} {{ 'custom-mobile.css' | asset_url | stylesheet_tag }} {% endcomment %}
+
+   
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_headings_font | font_face: font_display: 'swap' }}
+      {{ settings.type_navigation_font | font_face: font_display: 'swap' }}
+      {{ settings.type_buttons_font | font_face: font_display: 'swap' }}
+      {{ settings.type_price_font | font_face: font_display: 'swap' }}
+      {{ settings.type_breadcrumbs_font | font_face: font_display: 'swap' }}
+
+      @font-face {
+        font-family: 'icomoon';
+        src:  url('{{ 'icomoon.eot' | asset_url }}?6k4fkf');
+        src:  url('{{ 'icomoon.eot' | asset_url }}?6k4fkf#iefix') format('embedded-opentype'),
+          url('{{ 'icomoon.ttf' | asset_url }}?6k4fkf') format('truetype'),
+          url('{{ 'icomoon.woff' | asset_url }}?6k4fkf') format('woff'),
+          url('{{ 'icomoon.svg' | asset_url }}?6k4fkf#icomoon') format('svg');
+        font-weight: normal;
+        font-style: normal;
+        font-display: block;
+      }
+    {% endstyle %}
+    <style>
+      [data-custom-badge="{{ settings.custom-badge-1-input }}"]{
+        background-color: {{ settings.custom-badge-1-background }};
+        color: {{ settings.custom-badge-1-text }};
+        }
+      [data-custom-badge="{{ settings.custom-badge-2-input }}"]{
+        background-color: {{ settings.custom-badge-2-background }};
+        color: {{ settings.custom-badge-2-text }};
+        }
+      [data-custom-badge="{{ settings.custom-badge-3-input }}"]{
+        background-color: {{ settings.custom-badge-3-background }};
+        color: {{ settings.custom-badge-3-text }};
+        }
+      [data-custom-badge="{{ settings.custom-badge-4-input }}"]{
+        background-color: {{ settings.custom-badge-4-background }};
+        color: {{ settings.custom-badge-4-text }};
+        }
+    </style>
+
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_headings_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_headings_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_navigation_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_navigation_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_buttons_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_buttons_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_price_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_price_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {% comment %}
+      {%- unless settings.type_breadcrumbs_font.system? -%}
+        <link
+          rel="preload"
+          as="font"
+          href="{{ settings.type_breadcrumbs_font | font_url }}"
+          type="font/woff2"
+          crossorigin
+        >
+      {%- endunless -%}
+    {% endcomment %}
+{%- if content_for_header contains "elevateab.app" -%}{%- unless request.design_mode -%} <script>try{window.eab_data={selectors:JSON.parse(`{{shop.metafields.elevateab.select}}`)||{},allTests:JSON.parse(`{{shop.metafields.elevateab.tests}}`)||{},currencyFormat:{% if settings.currency_code_enabled %}"{{ shop.money_with_currency_format}}"{% else %}"{{ shop.money_format}}"{% endif %}};}catch(error){console.log(error);window.eab_data={selectors:{},allTests:{},currencyFormat:{% if settings.currency_code_enabled %}"{{ shop.money_with_currency_format}}"{% else %}"{{ shop.money_format}}"{% endif %}};}</script><script src="https://ds0wlyksfn0sb.cloudfront.net/redirect.js"></script> {%- endunless -%}{%- endif -%}
+ 
+  
+{% render 'pspd-poseidon-equine' %}
+</head>
+
+  {% assign template_name = template | handleize %}
+  {% if template_name.size < 1 %}
+    {% assign template_name = 'empty' | handleize %}
+  {% endif %}
+
+  <body class="template-{{ template_name }} nav-drawer-big mobile-nav">
+    <a href="#root" class="skip-to-content-link">{{ 'accessibility.skip_to_text' | t }}</a>
+    {% if settings.sticky_header %}<div class="sticky-header__threshold"></div>{% endif %}
+    {% sections 'header-group' %}
+
+    <main id="root" class="" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% if template != 'cart' %}
+      {% render 'cart-drawer' %}
+    {% else %}
+      <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+    {% endif %}
+
+    {% render 'localization-drawer' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+    </ul>
+
+    <script>
+// Track what's causing gallery reinit
+let galleryInitCount = 0;
+
+// Override customElements.define to catch gallery registration
+const originalDefine = window.customElements.define;
+window.customElements.define = function(name, constructor, options) {
+  if (name === 'gallery-section') {
+    const originalConnected = constructor.prototype.connectedCallback;
+    constructor.prototype.connectedCallback = function() {
+      galleryInitCount++;
+      if (galleryInitCount > 1) {
+        console.error(`[GALLERY REINIT #${galleryInitCount}] Stack trace:`);
+        console.trace();
+        debugger; // This will pause execution so you can inspect
+      }
+      return originalConnected.call(this);
+    };
+  }
+  return originalDefine.call(this, name, constructor, options);
+};
+</script>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+      };
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      };
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+        recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
+        recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+      };
+    </script>
+
+    <script type="module" src="{{ 'slider.js' | asset_url }}" defer="defer"></script>
+
+    <div class="pickup-availability--page-overlay"></div>
+    <div class="wt__quick-buy--page-overlay"></div>
+    <div class="wt__quick-buy">
+      <div class="wt__quick-buy__container">
+        <nav>
+          <div class="close-btn" role="button" aria-label="{{ 'aria-label.close-button' | t }}" tabindex="-1">
+            {% render 'icons', id: 'close' %}
+          </div>
+        </nav>
+        <div class="wt__quick-buy--wrapper">
+          <div class="wt__quick-buy-loader">
+            {% render 'loader' %}
+          </div>
+          <div class="wt__quick-buy__view-all-container hidden">
+            <a href="#">
+              {{ 'general.quick_add.view_all_details' | t }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="model-container hidden">
+      <nav>
+        <div class="close-btn" role="button" aria-label="{{ 'aria-label.close-button' | t }}" tabindex="-1">
+          {% render 'icons', id: 'close', icon_class: 'wt-cart__drawer__close' %}
+        </div>
+      </nav>
+      <div class="model">
+        <button class="hero__button--link" role="button" aria-label="{{ 'aria-label.back-button' | t }}">
+          <span>
+            {{ 'aria-label.back-button' | t }}
+          </span>
+        </button>
+      </div>
+    </div>
+    {% if request.design_mode %}
+      <script src="{{ 'parallax.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'page-header-logo-banner.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'page-header-image-banner.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'low-power-video.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'video-controls.js' | asset_url }}" defer="defer"></script>
+      <script type="module" src="{{ 'pdp.js' | asset_url }}" defer="defer"></script>
+      <script type="module" src="{{ 'gallery.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'countdown-timer.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'img-comparison-slider-v8.js' | asset_url }}" defer="defer"></script>
+    {% endif %}
+    <!-- Wonder Theme v2.0.0 -->
+
+
+<!-- Optimized Product Names Font & Colour -->
+<script>
+  // Defer until after critical resources
+  function initProductColors() {
+    // Wait for next idle moment or fallback to 100ms
+    if (window.requestIdleCallback) {
+      requestIdleCallback(() => applyProductStyling(), {timeout: 2000});
+    } else {
+      setTimeout(applyProductStyling, 100);
+    }
+  }
+
+  function applyProductStyling() {
+    console.log('🚀 Applying product colors - Optimized');
+    
+    // 1. Detect main product and get subtitle color
+    const url = window.location.href.toLowerCase();
+    const pageTitle = document.title.toLowerCase();
+    let subtitleColor = null;
+    
+    // Check URL for product (most specific first)
+    if (url.includes('digestive-k9-chews')) {
+      subtitleColor = '#39b4af';
+    } else if (url.includes('digestive-k9') || url.includes('digestivek9')) {
+      subtitleColor = '#07a8e2';
+    } else if (url.includes('stress-paste') || url.includes('stresspaste')) {
+      subtitleColor = '#C88B34';
+    } else if (url.includes('digestive-hp') || url.includes('digestivehp')) {
+      subtitleColor = '#9D3393';
+    } else if (url.includes('digestive-rp') || url.includes('digestiverp')) {
+      subtitleColor = '#9D3393';
+    } else if (url.includes('digestive-vm') || url.includes('digestivevm')) {
+      subtitleColor = '#f15e3e';
+    } else if (url.includes('digestive-eq') || url.includes('digestiveeq')) {
+      subtitleColor = '#39b4af';
+    } else if (url.includes('stress-k9') || url.includes('stressk9')) {
+      subtitleColor = '#E7A614';
+    } else if (url.includes('metabolize')) {
+      subtitleColor = '#90C53D';
+    } else if (url.includes('equibind')) {
+      subtitleColor = '#A39C96';
+    } else if (url.includes('daily-balance') || url.includes('dailybalance')) {
+      subtitleColor = '#f15e3e';
+    } else if (url.includes('gut-health-reset')) {
+      subtitleColor = '#1C1E4D';
+    } else if (url.includes('proteinpuffs') || url.includes('protein-puffs')) {
+      subtitleColor = '#39b4af';
+    }
+    
+    // 2. Apply subtitle colors via CSS (fast!)
+    if (subtitleColor) {
+      const style = document.createElement('style');
+      style.textContent = `h4 { color: ${subtitleColor} !important; }`;
+      document.head.appendChild(style);
+    }
+    
+    // 3. Product name replacements - batch process
+    const replacements = [
+      { pattern: /digestive[\s-]?hp/gi, html: '<strong>Digestive<span style="color:#9D3393;">HP</span></strong>' },
+      { pattern: /stress[\s-]?paste/gi, html: '<strong>Stress<span style="color:#C88B34;">Paste</span></strong>' },
+      { pattern: /metabolize®?/gi, html: '<strong>Metabo<span style="color:#90C53D;">Lize®</span></strong>' },
+      { pattern: /digestive[\s-]?rp/gi, html: '<strong>Digestive<span style="color:#9D3393;">RP</span></strong>' },
+      { pattern: /equibind/gi, html: '<strong>Equi<span style="color:#A39C96;">Bind</span></strong>' },
+      { pattern: /daily[\s-]?balance/gi, html: '<strong>Daily<span style="color:#f15e3e;">Balance</span></strong>' },
+      { pattern: /digestive[\s-]?vm/gi, html: '<strong>Digestive<span style="color:#f15e3e;">VM</span></strong>' },
+      { pattern: /digestive[\s-]?eq/gi, html: '<strong>Digestive<span style="color:#39b4af;">EQ</span></strong>' },
+      { pattern: /digestive[\s-]?k9[\s-]?chews/gi, html: '<strong>Digestive<span style="color:#39b4af;">K9</span> Chews</strong>' },
+      { pattern: /digestive[\s-]?k9/gi, html: '<strong>Digestive<span style="color:#07a8e2;">K9</span></strong>' },
+      { pattern: /proteinpuffs/gi, html: '<strong>Protein<span style="color:#39b4af;">Puffs</span></strong>' },
+      { pattern: /stress[\s-]?k9/gi, html: '<strong>Stress<span style="color:#E7A614;">K9</span></strong>' },
+      { pattern: /gut health reset pack/gi, html: '<strong>Gut Health<span style="color:#1C1E4D;"> Reset Pack</span></strong>' },
+      { pattern: /gut health reset/gi, html: '<strong>Gut Health<span style="color:#1C1E4D;"> Reset</span></strong>' }
+    ];
+    
+    // Process text in visible elements only
+    const processElement = (element) => {
+      // Skip if already processed
+      if (element.dataset.productStyled) return;
+      
+      // Get all text nodes
+      const walker = document.createTreeWalker(
+        element,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: function(node) {
+            // Skip empty text and script/style tags
+            if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            if (['SCRIPT', 'STYLE'].includes(node.parentNode.tagName)) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+      
+      const textNodes = [];
+      let node;
+      while (node = walker.nextNode()) {
+        textNodes.push(node);
+      }
+      
+      // Process each text node
+      textNodes.forEach(textNode => {
+        let text = textNode.nodeValue;
+        let modified = false;
+        
+        // Check each replacement
+        replacements.forEach(({pattern, html}) => {
+          if (pattern.test(text)) {
+            text = text.replace(pattern, html);
+            modified = true;
+          }
+        });
+        
+        // If modified, replace the text node with HTML
+        if (modified) {
+          const span = document.createElement('span');
+          span.innerHTML = text;
+          textNode.parentNode.replaceChild(span, textNode);
+        }
+      });
+      
+      element.dataset.productStyled = 'true';
+    };
+    
+    // Use Intersection Observer for performance
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            processElement(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '50px' });
+      
+      // Observe key elements that likely contain product names
+      document.querySelectorAll('h1, h2, h3, h4, h5, .product-title, .product__title, .product-single__title, p, li, span:not([data-product-styled])')
+        .forEach(el => observer.observe(el));
+    } else {
+      // Fallback for older browsers
+      document.querySelectorAll('h1, h2, h3, h4, h5, .product-title, .product__title, .product-single__title, p, li')
+        .forEach(processElement);
+    }
+  }
+  
+  // Start after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProductColors);
+  } else {
+    initProductColors();
+  }
+</script>
+<!-- End Optimized Product Names Font & Colour -->
+
+
+<!-- Instant Cart Drawer -->
+    <script>
+  const handleInstantCartEvents = () => {
+    const cartDrawerEl = document.querySelector("cart-drawer");
+    if (!cartDrawerEl) return;
+
+    const sectionIds = cartDrawerEl.getSectionsToRender().map(s => s.id).join(",");
+
+    fetch(`${window.Shopify.routes.root}?sections=${sectionIds}`)
+      .then(res => res.json())
+      .then(response => {
+        cartDrawerEl.renderContents({ sections: response }, false);
+
+        if (!cartDrawerEl.hasAttribute("open")) {
+          cartDrawerEl.setAttribute("open", "");
+          cartDrawerEl.isOpen = true;
+          cartDrawerEl.drawer.classList.add(cartDrawerEl.classDrawerActive);
+          document.body.classList.add(cartDrawerEl.activeOverlayBodyClass);
+          setTimeout(() => cartDrawerEl.closeButton()?.focus(), 50);
+        }
+      });
+  };
+
+  ["instant:add-to-cart", "instant:open-cart"].forEach(event =>
+    document.addEventListener(event, handleInstantCartEvents)
+  );
+  </script>
+<!-- Instant Cart Drawer -->
+
+
+<!-- MOBILE ONLY TOP SECTION - TITLE, SUBTITLE, RATINGS -->
+ <script>
+// Optimized Mobile Top Section - Runs immediately
+(function() {
+  'use strict';
+  
+  // Don't wait for DOMContentLoaded - start observing immediately
+  function initMobileSection() {
+    if (window.innerWidth > 480) return;
+    
+    // Use MutationObserver to detect when elements are available
+    const observer = new MutationObserver(function(mutations, obs) {
+      // Check if we have the necessary elements
+      const titleElement = document.querySelector('h1.wt-product__name');
+      const productContainer = document.querySelector('.wt-product');
+      
+      if (titleElement && productContainer && !document.querySelector('.mobile-top-section')) {
+        createMobileTopSection();
+        obs.disconnect(); // Stop observing once created
+      }
+    });
+    
+    // Start observing immediately
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    // Also try immediately in case elements are already there
+    if (document.querySelector('.wt-product')) {
+      createMobileTopSection();
+    }
+  }
+  
+  function createMobileTopSection() {
+    if (window.innerWidth > 480) return;
+    if (document.querySelector('.mobile-top-section')) return;
+    
+    const productContainer = document.querySelector('.wt-product');
+    if (!productContainer) return;
+    
+    const titleElement = document.querySelector('h1.wt-product__name');
+    const subtitleElement = document.querySelector('.wt-product__text-block.rte h4, .wt-product__text-block h4');
+    const ratingsElement = document.querySelector('[id*="loox"], .loox-rating, .reviews, .rating');
+    
+    if (!titleElement) return; // Don't create section without at least the title
+    
+    // Create section with higher priority styles
+    const mobileSection = document.createElement('div');
+    mobileSection.className = 'mobile-top-section';
+    mobileSection.setAttribute('style', `
+      display: block !important;
+      width: 100% !important;
+      background: white !important;
+      padding: 15px !important;
+      text-align: center !important;
+      order: -999 !important;
+      position: relative !important;
+      z-index: 1 !important;
+    `);
+    
+    // Add elements as they're available
+    if (titleElement) {
+      const mobileTitle = titleElement.cloneNode(true);
+      mobileTitle.style.cssText = 'display: block !important; text-align: center !important;';
+      mobileSection.appendChild(mobileTitle);
+    }
+    
+    if (subtitleElement) {
+      const mobileSubtitle = subtitleElement.cloneNode(true);
+      mobileSubtitle.style.cssText = 'display: block !important; font-size: 20px !important; text-align: center !important; line-height: 1.1 !important;';
+      mobileSection.appendChild(mobileSubtitle);
+    }
+    
+    if (ratingsElement) {
+      const mobileRatings = ratingsElement.cloneNode(true);
+      mobileRatings.style.cssText = 'display: flex !important; justify-content: center !important;';
+      mobileSection.appendChild(mobileRatings);
+    }
+    
+    // Insert immediately
+    productContainer.parentElement.insertBefore(mobileSection, productContainer);
+    
+    // If ratings weren't ready, observe for them
+    if (!ratingsElement) {
+      observeForRatings(mobileSection);
+    }
+  }
+  
+  function observeForRatings(mobileSection) {
+    const ratingsObserver = new MutationObserver(function(mutations, obs) {
+      const ratingsElement = document.querySelector('[id*="loox"], .loox-rating, .reviews, .rating');
+      if (ratingsElement && !mobileSection.querySelector('[id*="loox"], .loox-rating, .reviews, .rating')) {
+        const mobileRatings = ratingsElement.cloneNode(true);
+        mobileRatings.style.cssText = 'display: flex !important; justify-content: center !important;';
+        mobileSection.appendChild(mobileRatings);
+        obs.disconnect();
+      }
+    });
+    
+    ratingsObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    // Stop observing after 5 seconds to prevent memory leaks
+    setTimeout(() => ratingsObserver.disconnect(), 5000);
+  }
+  
+  // Handle resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      const mobileSection = document.querySelector('.mobile-top-section');
+      if (window.innerWidth > 480 && mobileSection) {
+        mobileSection.remove();
+      } else if (window.innerWidth <= 480 && !mobileSection) {
+        createMobileTopSection();
+      }
+    }, 250);
+  });
+  
+  // Start immediately
+  initMobileSection();
+  
+  // Also run when DOM is ready as fallback
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', createMobileTopSection);
+  } else {
+    createMobileTopSection();
+  }
+})();
+</script>
+
+
+{% comment %} In theme.liquid, before </body> {% endcomment %}
+{% if template contains 'product' %}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'variants.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'drawer-select.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'model_element.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'variant-dropdown.js' | asset_url }}" defer="defer"></script>
+  <script type="module" src="{{ 'gallery.js' | asset_url }}" defer="defer"></script>
+  <script type="module" src="{{ 'pdp.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+<!-- MOVE THESE TO BOTTOM -->
+<script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'base.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'color-swatch.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'drawer-select.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'model_element.js' | asset_url }}" defer="defer"></script>
+
+<!-- SORTING FOR DOG HEALTH/K9 COLLECTION -->
+<script>
+(function() {
+  // Flag to prevent multiple sorts
+  let hasSorted = false;
+  
+  function sortDogHealthProducts() {
+    // Exit if already sorted or wrong page
+    if (hasSorted || !window.location.pathname.includes('/collections/dog-health')) {
+      return;
+    }
+    
+    const container = document.querySelector('.product-grid, .grid, [class*="grid"]');
+    if (!container || container.children.length === 0) {
+      return;
+    }
+    
+    // Mark as sorted BEFORE sorting to prevent any re-runs
+    hasSorted = true;
+    
+    const products = Array.from(container.children);
+    
+    products.sort((a, b) => {
+      const textA = (a.textContent || '').toLowerCase();
+      const textB = (b.textContent || '').toLowerCase();
+      
+      const getPriority = (text) => {
+        if (text.includes('digestive') && text.includes('powder')) return 1;
+        if (text.includes('digestive') && text.includes('chew')) return 2;
+        if (text.includes('stress')) return 3;
+        if (text.includes('protein') || text.includes('puff')) return 4;
+        return 5;
+      };
+      
+      return getPriority(textA) - getPriority(textB);
+    });
+    
+    products.forEach(product => container.appendChild(product));
+    console.log('✓ Products sorted once');
+  }
+  
+  // Try once when ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', sortDogHealthProducts);
+  } else {
+    sortDogHealthProducts();
+  }
+  
+  // One backup attempt after 1 second (only if not sorted)
+  setTimeout(function() {
+    if (!hasSorted) {
+      sortDogHealthProducts();
+    }
+  }, 1000);
+})();
+</script>
+
+
+</body>
+</html>
