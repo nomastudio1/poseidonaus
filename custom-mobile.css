@@ -1,0 +1,327 @@
+/* ========================================
+   MOBILE PRODUCT PAGE STYLES - COMPLETE
+   For Shopify Wonder Theme
+   ======================================== */
+
+/* ===== MOBILE-ONLY TOP SECTION ===== */
+@media screen and (max-width: 768px) {
+  /* Hide original elements on mobile AND tablet */
+  h1.wt-product__name {
+    display: none !important;
+  }
+  
+  .wt-product__text-block.rte h4,
+  .wt-product__text-block h4 {
+    display: none !important;
+  }
+  
+  /* Hide specific Loox review blocks */
+  #shopify-block-AWlVxVlc5Skxza2RUM__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AckJxK05VNmJxTGVmQ__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AZmc1c2dkUjJHRUpHR__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AMFI4ZWltb3A4S0p5b__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-ATGdNN09WamlSTzZMM__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AVHZDZHExcG9UYkhrY__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AWENRWHAzSlVLR0JUa__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AdlM1OU82WVBRWSt4U__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AVnRyOWlxcTJzY2tPc__loox_reviews_loox_rating_aHFFiK {
+    display: none !important;
+  }
+  
+  /* Make the main container flexbox */
+  .wt-product {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  /* Style the mobile top section container */
+  .mobile-top-section {
+    display: block !important;
+    width: 100% !important;
+    background: white !important;
+    padding: 5px 5px 5px 5px !important;
+    text-align: center !important;
+    order: -999 !important;
+  }
+  
+  /* Style the cloned title - responsive sizing */
+  .mobile-top-section h1 {
+    display: block !important;
+    font-size: 46px !important;
+    font-weight: bold !important;
+    margin: 0 0 0px 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Style the cloned subtitle - match desktop styling exactly */
+  .mobile-top-section h4 {
+    display: inline-block !important;
+    /* Match desktop font properties exactly */
+    font-size: 18px !important;
+    font-family: "Instrument Sans" !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    margin: 0 0 5px 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    line-height: 1.1 !important;
+    /* Center the inline-block element */
+    width: auto !important;
+    max-width: 90% !important;
+  }
+  
+  /* Center the container for the inline-block H4 */
+  .mobile-top-section {
+    display: block !important;
+    width: 100% !important;
+    background: white !important;
+    padding: 5px 5px 5px 5px !important;
+    text-align: center !important;
+    order: -999 !important;
+  }
+  
+  /* Style the cloned ratings */
+  .mobile-top-section > div[id*="shopify-block"] {
+    display: flex !important;
+    justify-content: center !important;
+    margin: 0 0 5px 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Center the gallery container with equal margins */
+  .wt-product__gallery {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Ensure the gallery section is centered */
+  gallery-section {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* ===== MOBILE-SPECIFIC STYLES (smaller screens) ===== */
+@media screen and (max-width: 480px) {
+  /* Reduce spacing between gallery and benefit pills */
+  .wt-product__features {
+    margin: 0px 0 30px 0 !important;
+    padding-top: 0px !important;
+  }
+  
+  .wt-product__features__list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+  }
+  
+  /* ===== THUMBNAIL STYLES (Mobile Only) ===== */
+  /* Style thumbnail container - horizontal layout */
+  .thumbs-list,
+  .swiper-wrapper.thumbs-list,
+  .wt-slider__wrapper.thumbs-list {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: 60px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding: 5px 0 !important;
+  }
+  
+  .thumbs-list-item,
+  .swiper-slide.thumbs-list-item {
+    display: block !important;
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 0 0 60px !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+  }
+  
+  /* Style the thumbnail images */
+  .thumbs-list-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  /* Ensure the thumbnail container is visible */
+  div[data-thumbs] {
+    display: block !important;
+    height: auto !important;
+    min-height: 45px !important;
+  }
+}
+
+/* ===== TABLET-SPECIFIC STYLES (481px to 768px) ===== */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  /* Style the thumbnails - BIGGER SIZE for tablets */
+  .thumbs-list-item,
+  .swiper-slide.thumbs-list-item {
+    width: 80px !important;
+    height: 80px !important;
+    margin: 0 5px !important;
+    flex: 0 0 80px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+  
+  /* Thumbnail images */
+  .thumbs-list-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+  }
+  
+  /* Prevent vertical scrolling on thumbnail container */
+  [data-thumbs],
+  .wt-product__gallery [data-thumbs] {
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    max-height: 80px !important;
+  }
+}
+
+/* ===== SHARED TABLET AND MOBILE STYLES ===== */
+@media screen and (max-width: 768px) {
+  /* Make thumbnails scroll horizontally */
+  .thumbs-list {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+  }
+  
+  /* Ensure gallery container doesn't create vertical scroll */
+  .wt-product__gallery {
+    overflow: visible !important;
+    max-width: 100% !important;
+  }
+  
+  /* Hide scrollbar */
+  .thumbs-list::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  /* Ensure thumbnails container is visible */
+  [data-thumbs] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-top: 15px !important;
+  }
+  
+  /* Ensure thumbnail wrapper is visible */
+  [data-thumbs] .swiper-wrapper,
+  [data-thumbs] ul {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix the selection highlight border radius */
+  .thumbs-list-item.swiper-slide-thumb-active {
+    border-radius: 12px !important;
+  }
+  
+  /* Fix any selection border or outline */
+  .thumbs-list-item.swiper-slide-thumb-active::before,
+  .thumbs-list-item.swiper-slide-thumb-active::after,
+  .thumbs-list-item input[type="radio"]:checked + label {
+    border-radius: 12px !important;
+  }
+  
+  /* Selection border styling */
+  .swiper-slide-thumb-active {
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Product title font */
+  h1.wt-product__name {
+    font-family: 'PT Sans Narrow', sans-serif !important;
+  }
+  
+  /* ===== SPACING ADJUSTMENTS ===== */
+  /* Aggressive spacing reduction between gallery and product info */
+  .wt-product__wrapper--carousel-vertical .wt-product__info {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  /* Reduce gallery bottom spacing */
+  .wt-product__gallery--carousel-vertical {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  
+  /* Reduce overall product wrapper gaps */
+  .wt-product.wt-product--carousel-vertical {
+    gap: 5px !important;
+  }
+  
+  /* Target the main product wrapper for tighter spacing */
+  .wt-product__wrapper {
+    gap: 5px !important;
+    margin: 0 !important;
+  }
+  
+  /* Remove any default margins on product sections */
+  .wt-product > * {
+    margin-top: 0 !important;
+    margin-bottom: 5px !important;
+  }
+  
+  /* Specifically target the section after gallery */
+  .wt-product__gallery + * {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* ===== DESKTOP STYLES ===== */
+@media screen and (min-width: 769px) {
+  /* Hide mobile-only elements on desktop */
+  .mobile-top-section {
+    display: none !important;
+  }
+  
+  /* Show original elements on desktop */
+  h1.wt-product__name,
+  .wt-product__text-block.rte h4,
+  .wt-product__text-block h4,
+  #shopify-block-AWlVxVlc5Skxza2RUM__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AckJxK05VNmJxTGVmQ__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AZmc1c2dkUjJHRUpHR__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AMFI4ZWltb3A4S0p5b__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-ATGdNN09WamlSTzZMM__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AVHZDZHExcG9UYkhrY__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AWENRWHAzSlVLR0JUa__loox_reviews_loox_rating_aHFFiK,
+  #shopify-block-AVnRyOWlxcTJzY2tPc__loox_reviews_loox_rating_aHFFiK 
+   {
+    display: initial !important;
+  }
+}
+
